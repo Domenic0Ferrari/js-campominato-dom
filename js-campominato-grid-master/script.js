@@ -21,6 +21,7 @@ btnPlay.addEventListener('click', function() {
 	createGrid(nCells, eleGrid);
 });
 
+let bomb = [];
 
 
 
@@ -39,7 +40,7 @@ function createGrid(nCells, eleContainer) {
 		const eleCell = document.createElement('div');
 		eleCell.innerHTML = i;
 		eleCell.classList.add('cell');
-		
+
 		eleContainer.append(eleCell);
 		// aggiungere l'event listener alla cella appena creata
 		eleCell.addEventListener('click', function() {
