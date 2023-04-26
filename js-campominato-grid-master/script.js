@@ -14,18 +14,6 @@ btnPlay.addEventListener('click', function() {
 	// leggere il livello per determinare il numero di celle
 	const nCells = parseInt(selectLevel.value);
 
-	// switch (selectLevel.value) {
-	// 	case 'easy':
-	// 		createGrid(100, eleGrid);
-	// 		break;
-	// 	case 'hard':
-	// 		createGrid(81, eleGrid);
-	// 		break;
-	// 	case 'crazy':
-	// 		createGrid(49, eleGrid);
-	// 		break;
-	// }
-
 	// aggiustare lo style della griglia
 	eleGrid.style.setProperty('--sideSquare', Math.sqrt(nCells));
 
@@ -51,13 +39,12 @@ function createGrid(nCells, eleContainer) {
 		const eleCell = document.createElement('div');
 		eleCell.innerHTML = i;
 		eleCell.classList.add('cell');
-		// eleCell.style.width = `calc(100% / ${side})`;
-		// eleCell.style.height = `calc(100% / ${side})`;
+		
 		eleContainer.append(eleCell);
 		// aggiungere l'event listener alla cella appena creata
 		eleCell.addEventListener('click', function() {
 			console.log(this);
-			console.log('Hai cliccato ls cella ' + this.innerHTML)
+			console.log('Hai cliccato la cella ' + this.innerHTML)
 			this.classList.toggle('clicked');
 		});
 	}

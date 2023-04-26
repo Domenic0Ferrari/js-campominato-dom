@@ -1,38 +1,37 @@
+/* GENERAL STYLE */
+
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
 
+/* HEADER */
+
 header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	padding-inline: 1.5rem;
-	height: 3rem;
+	height: 4rem;
 }
+
+/* MAIN */
 
 main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: calc(100vh - 6rem);
+	height: calc(100vh - 7rem);
 	background-color: #7FFFD4;
-}
-
-footer {
-	display: flex;
-	align-items: center;
-	padding-inline: 1.5rem;
-	height: 3rem;
 }
 
 .grid {
 	--sideSquare: 10;
 	display: flex;
 	flex-wrap: wrap;
-	width: 600px;
-	height: 600px;
+	width: 550px;
+	height: 550px;
 	border: 1px solid black;
 	box-sizing: content-box;
 }
@@ -47,6 +46,7 @@ footer {
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
+	background-color: brown;
 }
 
 .clicked {
@@ -56,3 +56,14 @@ footer {
 .hidden {
 	display: none;
 }
+
+/* FOOTER */
+
+footer {
+	display: flex;
+	align-items: center;
+	padding-inline: 1.5rem;
+	height: 3rem;
+	justify-content: center;
+}
+
