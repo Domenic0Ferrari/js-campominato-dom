@@ -3,7 +3,7 @@ const eleHelp = document.querySelector('.help');
 const eleGrid = document.querySelector('.grid');
 const btnPlay = document.querySelector('#play');
 const selectLevel = document.querySelector('#level');
-let bomb = []; /* all'inizio è vuoto */
+let bomb; /* all'inizio è vuoto */
 let score;
 let nCells;
 
@@ -24,6 +24,9 @@ btnPlay.addEventListener('click', function() {
 	bomb = generateRandomArray(1, nCells, 16);
 	console.log(bomb);
 
+	// inizializziamo il punteggio
+	score = 0;
+
 	// generare la griglia
 	createGrid(nCells, eleGrid);
 });
@@ -34,7 +37,7 @@ btnPlay.addEventListener('click', function() {
 
 
 /* FUNCTION DEFINITIONS */
-function createGrid(nCells, eleContainer){
+function createGrid(nCells, eleContainer) {
 	console.log(nCells);
 
 	const side = Math.sqrt(nCells);
@@ -47,8 +50,7 @@ function createGrid(nCells, eleContainer){
 		const eleCell = document.createElement('div');
 		eleCell.innerHTML = i;
 		eleCell.classList.add('cell');
-		bomb.includes(i) ? eleCell.classList.add('mine-helper') : ''; 
-
+		bomb.includes(i) ? eleCell.classList.add('mine-helper') : '';
 		eleContainer.append(eleCell);
 		// aggiungere l'event listener alla cella appena creata
 		eleCell.addEventListener('click', cellClick);
@@ -57,43 +59,50 @@ function createGrid(nCells, eleContainer){
 
 // per generare numeri casuali
 
-function getRandomInteger(min, max){
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+function getRandomInteger(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
 // per inserire nell'array i numeri e verificare siano corretti
 
-function generateRandomArray(min, max, nElements){
+function generateRandomArray(min, max, nElements) {
 	let arr = [];
-	for (let i = 0; i < nElements; i++){
+	for (let i = 0; i < nElements; i++) {
+
 		let randomNum;
-		do{
+		do {
 			randomNum = getRandomInteger(min, max);
-		} while (arr.includes(randomNum));
+		} while (arr.includes(randomNum))
+
 		arr.push(randomNum);
 	}
 	return arr;
 }
 
 
-
 function cellClick() {
-	console.log(this);
-	console.log('Hai cliccato la cella ' + this.innerHTML)
-	numCell = parseInt(this.innerHTML);
-	if(bomb.includes(numCell)){
-		this.classList.add('mine')
-		// fermare il gioco
-		const cells = document.querySelectorAll('.cell');
-		for (let i = 0; i < cells.length; i++){
-			cells[i].removeEventListener('click', cellClick);
-			const numCell = parseInt(cells[i].innerHTML);
-			bomb.includes(numCell) ? cells[i].classList.add('mine') : '';
-		}
-		// dire il punteggio
-		console.log('punteggio: ', score);
-	}else{
+	const numCell = parseInt(this.innerHTML);
+	this.removeEventListener('click', cellClick);
+	if (bomb.includes(numCell)) {
+		this.classList.add('mine');
+		endGame(true,  'Hai perso. Punteggio: ' + score);
+	} else {
 		this.classList.add('clicked');
 		score++;
+		if (nCells - score == 16) {
+			endGame(false, 'Hai vinto. Punteggio: ' + score);
+		}
 	}
+}
+
+function endGame(isLost, message) {
+	// togliere gli event listener ed illuminare tutte le bombe
+	const cells = document.querySelectorAll('.cell');
+	for (let i = 0; i < cells.length; i++) {
+		cells[i].removeEventListener('click', cellClick);
+		const numCell = parseInt(cells[i].innerHTML);
+		isLost && bomb.includes(numCell) ? cells[i].classList.add('mine') : '';
+	}
+	// dire il punteggio
+	console.log(message);
 }
