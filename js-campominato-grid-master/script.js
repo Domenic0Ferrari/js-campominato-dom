@@ -3,6 +3,7 @@ const eleHelp = document.querySelector('.help');
 const eleGrid = document.querySelector('.grid');
 const btnPlay = document.querySelector('#play');
 const selectLevel = document.querySelector('#level');
+let bomb = []; /* all'inizio è vuoto */
 
 btnPlay.addEventListener('click', function() {
 	// nascondere il messaggio
@@ -17,11 +18,21 @@ btnPlay.addEventListener('click', function() {
 	// aggiustare lo style della griglia
 	eleGrid.style.setProperty('--sideSquare', Math.sqrt(nCells));
 
+	// calcolo delle bombe
+	
+	let randomNum
+		do{
+			for(let i = 0; i < 16; i++){
+			randomNum = getRandomInteger(1, nCells);
+		}}while (bomb.includes(randomNum));
+	bomb.push(randomNum);
+	console.log(bomb);
+
 	// generare la griglia
 	createGrid(nCells, eleGrid);
 });
 
-let bomb = [];
+
 
 
 
@@ -49,4 +60,24 @@ function createGrid(nCells, eleContainer) {
 			this.classList.toggle('clicked');
 		});
 	}
+}
+
+// per generare numeri casuali
+
+function getRandomInteger(min, max){
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// per inserire nell'array i numeri e verificare siano corretti
+
+function generateRandomArray(min, max, nElements){
+	let arr = [];
+	for (let i = 0; i < nElements; i++){
+		let randomNum;
+		do{
+			randomNum = getRandomInteger(min, max);
+		} while (arr.includes(randomNum));
+		arr.push(randomNum);
+	}
+	return arr;
 }
