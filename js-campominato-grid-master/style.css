@@ -51,12 +51,21 @@ main{
 }
 
 .clicked{
-	background-color: aqua;
+	background-color: blue;
 }
 
 .hidden{
 	display: none;
 }
+
+.mine{
+	background-color: red;
+}
+
+.mine-helper{
+	color: red;
+}
+
 
 /* FOOTER */
 

@@ -4,6 +4,8 @@ const eleGrid = document.querySelector('.grid');
 const btnPlay = document.querySelector('#play');
 const selectLevel = document.querySelector('#level');
 let bomb = []; /* all'inizio è vuoto */
+let score;
+let nCells;
 
 btnPlay.addEventListener('click', function() {
 	// nascondere il messaggio
@@ -19,13 +21,7 @@ btnPlay.addEventListener('click', function() {
 	eleGrid.style.setProperty('--sideSquare', Math.sqrt(nCells));
 
 	// calcolo delle bombe
-	
-	let randomNum
-		do{
-			for(let i = 0; i < 16; i++){
-			randomNum = getRandomInteger(1, nCells);
-		}}while (bomb.includes(randomNum));
-	bomb.push(randomNum);
+	bomb = generateRandomArray(1, nCells, 16);
 	console.log(bomb);
 
 	// generare la griglia
@@ -38,7 +34,7 @@ btnPlay.addEventListener('click', function() {
 
 
 /* FUNCTION DEFINITIONS */
-function createGrid(nCells, eleContainer) {
+function createGrid(nCells, eleContainer){
 	console.log(nCells);
 
 	const side = Math.sqrt(nCells);
@@ -51,14 +47,11 @@ function createGrid(nCells, eleContainer) {
 		const eleCell = document.createElement('div');
 		eleCell.innerHTML = i;
 		eleCell.classList.add('cell');
+		bomb.includes(i) ? eleCell.classList.add('mine-helper') : ''; 
 
 		eleContainer.append(eleCell);
 		// aggiungere l'event listener alla cella appena creata
-		eleCell.addEventListener('click', function() {
-			console.log(this);
-			console.log('Hai cliccato la cella ' + this.innerHTML)
-			this.classList.toggle('clicked');
-		});
+		eleCell.addEventListener('click', cellClick);
 	}
 }
 
@@ -80,4 +73,27 @@ function generateRandomArray(min, max, nElements){
 		arr.push(randomNum);
 	}
 	return arr;
+}
+
+
+
+function cellClick() {
+	console.log(this);
+	console.log('Hai cliccato la cella ' + this.innerHTML)
+	numCell = parseInt(this.innerHTML);
+	if(bomb.includes(numCell)){
+		this.classList.add('mine')
+		// fermare il gioco
+		const cells = document.querySelectorAll('.cell');
+		for (let i = 0; i < cells.length; i++){
+			cells[i].removeEventListener('click', cellClick);
+			const numCell = parseInt(cells[i].innerHTML);
+			bomb.includes(numCell) ? cells[i].classList.add('mine') : '';
+		}
+		// dire il punteggio
+		console.log('punteggio: ', score);
+	}else{
+		this.classList.add('clicked');
+		score++;
+	}
 }
